@@ -8,9 +8,9 @@ body { margin: 0; min-width: 320px; }
 button, input, select, textarea { font: inherit; }
 @layer components {
   .panel { @apply rounded-2xl border border-ink/10 bg-white shadow-soft; }
-  .field { @apply w-full rounded-xl border border-ink/10 bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-ink/30 focus:border-guvi-orange focus:ring-2 focus:ring-guvi-orange/10; }
+  .field { @apply w-full rounded-xl border border-ink/10 bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-ink/30 focus:border-[#FF6B35] focus:ring-2 focus:ring-[#FF6B35]/10; }
   .status-logged, .status-under_review, .status-approved, .status-processing, .status-disbursed, .status-rejected, .status-on_hold { @apply inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide; }
-  .status-logged { @apply bg-guvi-yellow/20 text-guvi-yellow; } .status-under_review { @apply bg-guvi-orange/20 text-guvi-orange; } .status-approved { @apply bg-guvi-success/20 text-guvi-success; } .status-processing { @apply bg-guvi-warning/20 text-guvi-warning; } .status-disbursed { @apply bg-guvi-success/30 text-guvi-success; } .status-rejected { @apply bg-guvi-error/20 text-guvi-error; } .status-on_hold { @apply bg-guvi-warning/30 text-guvi-warning; }
+  .status-logged { @apply bg-[#FFC857]/20 text-[#FFC857]; } .status-under_review { @apply bg-[#FF6B35]/20 text-[#FF6B35]; } .status-approved { @apply bg-[#00C853]/20 text-[#00C853]; } .status-processing { @apply bg-[#FFAB00]/20 text-[#FFAB00]; } .status-disbursed { @apply bg-[#00C853]/30 text-[#00C853]; } .status-rejected { @apply bg-[#FF3D00]/20 text-[#FF3D00]; } .status-on_hold { @apply bg-[#FFAB00]/30 text-[#FFAB00]; }
 }
 .bg-mint { background-color: #00C853; } .bg-yellow { background-color: #FFC857; } .bg-blue { background-color: #1A1A2E; }
 .bg-guvi-orange { background-color: #FF6B35; }
