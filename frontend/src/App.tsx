@@ -8,7 +8,7 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Cell, Legend, Line, Line
 import { ArrowLeft, ArrowUpRight, CalendarDays, Check, ChevronDown, Download, FileText, Filter, LockKeyhole, Plus, RefreshCw, Save, Upload, X } from 'lucide-react'
 import { api } from './api'
 import { useAuth, RequireAuth } from './auth'
-import type { Eligibility, Refund, RefundStatus, Summary, TrendPoint } from './types'
+import type { Eligibility, Refund, RefundStatus, Role, Summary, TrendPoint } from './types'
 import { AppShell, Button, EmptyState, KpiCard, PageHeading, PanelError, RoleGate, SlaCountdown, Skeleton, StatusBadge } from './components'
 import Login from './LoginPage'
 
@@ -31,11 +31,12 @@ function RefundDetail() { const id = useLocation().pathname.split('/').pop(); co
 function AdminPage({ title }: { title: string }) { return <><PageHeading eyebrow="Administration" title={title} /><PanelError message="This admin endpoint is not available in the current backend yet." /></> }
 
 function UsersAdmin() {
+  const queryClient = useQueryClient();
   const { data: users, isLoading, error } = useQuery({
     queryKey: ['admin-users'],
     queryFn: async () => (await api.get('/admin/users')).data
   });
-  
+
   const createUser = useMutation({
     mutationFn: async (values: any) => (await api.post('/admin/users', values)).data,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-users'] })
@@ -139,13 +140,14 @@ function UsersAdmin() {
 }
 
 function BusinessCalendarAdmin() {
+  const queryClient = useQueryClient();
   const { data: calendar, isLoading, error } = useQuery({
     queryKey: ['admin-calendar'],
     queryFn: async () => (await api.get('/admin/business-calendar')).data
   });
 
   const updateEntry = useMutation({
-    mutationFn: async ({ date, isHoliday }: { date: string; isHoliday: boolean }) => 
+    mutationFn: async ({ date, isHoliday }: { date: string; isHoliday: boolean }) =>
       (await api.put('/admin/business-calendar', { date, isHoliday })).data,
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-calendar'] })
   });
