@@ -36,3 +36,6 @@ uploads/
 # Build artifacts
 dist/
 build/
+
+# Compiled TypeScript
+prisma/*.js
