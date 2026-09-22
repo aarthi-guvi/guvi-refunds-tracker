@@ -23,7 +23,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         >
           <div className="mb-8 flex items-center justify-between">
             <Link to="/dashboard" className="flex items-center gap-3">
-              <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#FF6B00] font-display text-lg font-bold">G</span>
+              <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#00A651] font-display text-lg font-bold">G</span>
               <span className="font-display text-lg font-bold tracking-tight">GUVI <span className="font-normal text-white/50">ops</span></span>
             </Link>
             <button onClick={() => setMobileMenuOpen(false)} className="text-white/60 hover:text-white">
@@ -78,7 +78,7 @@ export function AppShell({ children }: { children: ReactNode }) {
     {/* Desktop Sidebar */}
     <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col border-r border-ink/10 bg-navy px-5 py-7 text-white lg:flex">
       <Link to="/dashboard" className="mb-12 flex items-center gap-3 px-2">
-        <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#FF6B00] font-display text-lg font-bold">G</span>
+        <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#00A651] font-display text-lg font-bold">G</span>
         <span className="font-display text-lg font-bold tracking-tight">GUVI <span className="font-normal text-white/50">ops</span></span>
       </Link>
       
@@ -138,11 +138,11 @@ export function AppShell({ children }: { children: ReactNode }) {
           
           <button className="relative rounded-lg p-2 text-ink/60 hover:bg-ink/5">
             <Bell size={20} />
-            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#FF6B00]" />
+            <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-[#00A651]" />
           </button>
           
           <div className="flex items-center gap-3 rounded-xl border border-ink/10 bg-white px-3 py-2">
-            <div className="h-8 w-8 rounded-full bg-[#FF6B00]/10 text-[#FF6B00] flex items-center justify-center font-semibold text-sm">
+            <div className="h-8 w-8 rounded-full bg-[#00A651]/10 text-[#00A651] flex items-center justify-center font-semibold text-sm">
               {user?.name?.charAt(0) || 'U'}
             </div>
             <div className="hidden sm:block">
@@ -168,12 +168,12 @@ export function AppShell({ children }: { children: ReactNode }) {
 }
 
 export const StatusBadge = ({ status }: { status: RefundStatus }) => <span className={`status-${status.toLowerCase()}`}>{status.replace('_', ' ')}</span>
-export function KpiCard({ label, value, hint, accent = 'guvi-success' }: { label: string; value: string; hint?: string; accent?: 'guvi-success' | 'guvi-orange' | 'guvi-yellow' | 'guvi-dark' }) { return <div className="panel relative overflow-hidden p-5"><div className={`absolute left-0 top-0 h-1 w-full bg-${accent}`} /><p className="text-xs font-semibold uppercase tracking-[.13em] text-ink/45">{label}</p><p className="mt-4 font-display text-3xl font-bold tracking-tight">{value}</p>{hint && <p className="mt-2 text-xs text-ink/45">{hint}</p>}</div> }
+export function KpiCard({ label, value, hint, accent = 'guvi-success' }: { label: string; value: string; hint?: string; accent?: 'guvi-success' | 'guvi-green' | 'guvi-lightGreen' | 'guvi-dark' }) { return <div className="panel relative overflow-hidden p-5"><div className={`absolute left-0 top-0 h-1 w-full bg-${accent}`} /><p className="text-xs font-semibold uppercase tracking-[.13em] text-ink/45">{label}</p><p className="mt-4 font-display text-3xl font-bold tracking-tight">{value}</p>{hint && <p className="mt-2 text-xs text-ink/45">{hint}</p>}</div> }
 export function Skeleton({ className = '' }: { className?: string }) { return <div className={`animate-pulse rounded-lg bg-ink/10 ${className}`} /> }
-export function PanelError({ message = 'This panel could not load.' }: { message?: string }) { return <div className="flex min-h-44 flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-coral/30 bg-[#FF6B00]/5 p-6 text-center"><CircleAlert className="text-[#FF6B00]" size={22} /><p className="text-sm text-ink/60">{message}</p></div> }
-export function EmptyState({ clear }: { clear?: () => void }) { return <div className="flex flex-col items-center justify-center py-20 text-center"><div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-mint/40"><WalletCards size={25} /></div><h3 className="font-display text-lg font-bold">No refunds match these filters</h3><p className="mt-2 text-sm text-ink/50">Try widening the date range or clearing one of your filters.</p>{clear && <button onClick={clear} className="mt-5 text-sm font-semibold text-[#FF6B00] hover:underline">Clear filters</button>}</div> }
-export function Button({ children, className = '', ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) { return <button className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#FF6B00] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#FF6B00]/90 disabled:cursor-not-allowed disabled:opacity-50 ${className}`} {...props}>{children}</button> }
-export function PageHeading({ eyebrow, title, action }: { eyebrow: string; title: string; action?: ReactNode }) { return <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="mb-2 text-[11px] font-bold uppercase tracking-[.18em] text-[#FF6B00]">{eyebrow}</p><h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1></div>{action}</div> }
-export function SlaCountdown({ dueAt }: { dueAt?: string }) { if (!dueAt) return <span className="text-xs text-ink/35">No SLA set</span>; const overdue = new Date(dueAt) < new Date(); return <span className={`text-xs font-semibold ${overdue ? 'text-[#FF6B00]' : 'text-ink/55'}`}>{overdue ? 'SLA breached' : `Due ${new Date(dueAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`}</span> }
+export function PanelError({ message = 'This panel could not load.' }: { message?: string }) { return <div className="flex min-h-44 flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-coral/30 bg-[#00A651]/5 p-6 text-center"><CircleAlert className="text-[#00A651]" size={22} /><p className="text-sm text-ink/60">{message}</p></div> }
+export function EmptyState({ clear }: { clear?: () => void }) { return <div className="flex flex-col items-center justify-center py-20 text-center"><div className="mb-4 grid h-14 w-14 place-items-center rounded-2xl bg-mint/40"><WalletCards size={25} /></div><h3 className="font-display text-lg font-bold">No refunds match these filters</h3><p className="mt-2 text-sm text-ink/50">Try widening the date range or clearing one of your filters.</p>{clear && <button onClick={clear} className="mt-5 text-sm font-semibold text-[#00A651] hover:underline">Clear filters</button>}</div> }
+export function Button({ children, className = '', ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) { return <button className={`inline-flex items-center justify-center gap-2 rounded-xl bg-[#00A651] px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-[#00A651]/90 disabled:cursor-not-allowed disabled:opacity-50 ${className}`} {...props}>{children}</button> }
+export function PageHeading({ eyebrow, title, action }: { eyebrow: string; title: string; action?: ReactNode }) { return <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><p className="mb-2 text-[11px] font-bold uppercase tracking-[.18em] text-[#00A651]">{eyebrow}</p><h1 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">{title}</h1></div>{action}</div> }
+export function SlaCountdown({ dueAt }: { dueAt?: string }) { if (!dueAt) return <span className="text-xs text-ink/35">No SLA set</span>; const overdue = new Date(dueAt) < new Date(); return <span className={`text-xs font-semibold ${overdue ? 'text-[#00A651]' : 'text-ink/55'}`}>{overdue ? 'SLA breached' : `Due ${new Date(dueAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}`}</span> }
 export function RoleGate({ allow, children }: { allow: Role[]; children: ReactNode }) { return allow.includes(useAuth().role as Role) ? <>{children}</> : null }
 export { ChevronRight, Plus, RefreshCw }

@@ -4,26 +4,26 @@ export default {
   theme: {
     extend: {
       colors: {
-        // GUVI Brand Colors (based on actual website)
+        // GUVI Brand Colors
         guvi: {
-          orange: '#FF6B00',      // Primary brand orange
-          dark: '#0D47A1',        // GUVI dark blue
-          yellow: '#FFC107',      // Accent yellow
-          cream: '#FFFFFF',       // White background
-          light: '#F5F5F5',       // Light gray
-          success: '#00C853',     // Success green
+          green: '#00A651',       // Primary green
+          lightGreen: '#4CAF50',   // Light green accent
+          dark: '#0A0F14',         // Dark text
+          border: '#E4E8EC',       // Neutral/borders
+          background: '#FFFFFF',   // White background
+          success: '#00A651',     // Success (same as primary)
           error: '#FF3D00',       // Error red
           warning: '#FFAB00',     // Warning amber
         },
         // Fallback colors
-        ink: '#0D47A1',
+        ink: '#0A0F14',
         paper: '#FFFFFF',
-        coral: '#FF6B00',
-        mint: '#00C853',
-        navy: '#0D47A1',
+        coral: '#00A651',
+        mint: '#4CAF50',
+        navy: '#0A0F14',
       },
       fontFamily: { display: ['"Space Grotesk"', 'sans-serif'], body: ['"DM Sans"', 'sans-serif'] },
-      boxShadow: { soft: '0 18px 50px rgba(13, 71, 161, .08)' },
+      boxShadow: { soft: '0 18px 50px rgba(10, 15, 20, .08)' },
     },
   },
   plugins: [],
