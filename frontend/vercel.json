@@ -3,11 +3,5 @@
   "outputDirectory": "dist",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": "vite",
-  "env": {
-    "VITE_API_URL": {
-      "description": "Backend API URL (e.g., https://your-backend.onrender.com/api)",
-      "required": true
-    }
-  }
+  "framework": "vite"
 }
