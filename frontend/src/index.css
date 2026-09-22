@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { font-family: 'DM Sans', sans-serif; color: #18202b; background: #f7f5ef; font-synthesis: none; }
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; }
+button, input, select, textarea { font: inherit; }
+@layer components {
+  .panel { @apply rounded-2xl border border-ink/10 bg-white shadow-soft; }
+  .field { @apply w-full rounded-xl border border-ink/10 bg-white px-3.5 py-2.5 text-sm outline-none transition placeholder:text-ink/30 focus:border-coral focus:ring-2 focus:ring-coral/10; }
+  .status-logged, .status-under_review, .status-approved, .status-processing, .status-disbursed, .status-rejected, .status-on_hold { @apply inline-flex rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide; }
+  .status-logged { @apply bg-yellow-100 text-yellow-800; } .status-under_review { @apply bg-blue-100 text-blue-800; } .status-approved { @apply bg-mint text-emerald-900; } .status-processing { @apply bg-indigo-100 text-indigo-800; } .status-disbursed { @apply bg-emerald-100 text-emerald-800; } .status-rejected { @apply bg-red-100 text-red-700; } .status-on_hold { @apply bg-orange-100 text-orange-800; }
+}
+.bg-mint { background-color: #a7d9c5; } .bg-yellow { background-color: #f2c879; } .bg-blue { background-color: #83b7db; }
+.recharts-tooltip-wrapper { outline: none; }

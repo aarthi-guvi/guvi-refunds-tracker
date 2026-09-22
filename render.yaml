@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: guvi-refunds-backend
+    env: node
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: guvi-refunds-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 8h
+
+databases:
+  - name: guvi-refunds-db
+    databaseName: guvi_refunds
+    user: guvi_user
+    plan: free

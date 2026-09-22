@@ -1,0 +1,173 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Enums
+enum Role {
+  ADMIN
+  FINANCE
+  COORDINATOR
+  BD
+}
+
+enum PaymentType {
+  FULL
+  DOWN_PAYMENT
+  INSTALLMENT
+}
+
+enum PaymentMode {
+  UPI
+  CARD
+  NETBANKING
+  WALLET
+  EMI_PARTNER
+}
+
+enum RefundReason {
+  COURSE_QUALITY
+  DUPLICATE_PAYMENT
+  TECHNICAL_ISSUE
+  CHANGE_OF_MIND
+  JOB_ASSURANCE_BREACH
+  WRONG_COURSE_ENROLLED
+  OTHER
+}
+
+enum RefundStatus {
+  LOGGED
+  UNDER_REVIEW
+  APPROVED
+  PROCESSING
+  DISBURSED
+  REJECTED
+  ON_HOLD
+}
+
+/// Core models
+model User {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role
+  createdAt    DateTime @default(now())
+  // Relations
+  bdLearners       Learner[]      @relation("BDRefunds")
+  coordinatorLearners Learner[]   @relation("CoordinatorRefunds")
+  approvedRefunds  RefundRequest[] @relation("ApprovedRefund")
+  disbursedRefunds RefundRequest[] @relation("DisbursedRefund")
+  auditLogs        AuditLog[]
+  notes            Note[]
+}
+
+model Learner {
+  id                     Int      @id @default(autoincrement())
+  name                   String
+  email                  String   @unique
+  phone                  String?
+  courseEnrolled         String
+  batchId                String?
+  enrollmentDate         DateTime
+  courseStartDate        DateTime
+  assignedBdId           Int?
+  assignedCoordinatorId  Int?
+
+  // Relations
+  payments   Payment[]
+  refundRequests RefundRequest[]
+  assignedBd User? @relation("BDRefunds", fields: [assignedBdId], references: [id])
+  assignedCoordinator User? @relation("CoordinatorRefunds", fields: [assignedCoordinatorId], references: [id])
+}
+
+model Payment {
+  id                     Int          @id @default(autoincrement())
+  learnerId              Int
+  amount                 BigInt       // stored in paise
+  paymentType            PaymentType
+  paymentMode            PaymentMode
+  gatewayTransactionId   String?
+  financingPartnerName   String?
+  paidAt                 DateTime
+  geekoinsUsed           Int          @default(0)   // non‑refundable
+  gstAmount              BigInt       @default(0)
+
+  learner   Learner @relation(fields: [learnerId], references: [id])
+  refunds   RefundRequest[]
+}
+
+model RefundRequest {
+  id                     Int          @id @default(autoincrement())
+  learnerId              Int
+  paymentId              Int          // for simplicity, single payment; can be extended to many‑to‑many
+  initiatedBy            Int          // userId of coordinator or 0 for self_service
+  initiatedVia           String       // email, phone, portal
+  refundReason           RefundReason
+  otherReasonDetail      String?
+  requestedAmount        BigInt       // paise
+  eligibleAmount         BigInt?      // calculated by rule engine
+  processingFeeDeducted  BigInt?      // paise
+  gstClawbackDeducted    BigInt?      // paise
+  geekoinsForfeited      Int?
+  refundTo               String       // learner_bank_account, original_payment_source, financing_partner
+  status                 RefundStatus @default(LOGGED)
+  slaDueAt               DateTime?
+  approvedBy             Int?
+  disbursedBy            Int?
+  rejectionReason        String?
+  updatedBy              Int?
+  loggedAt               DateTime @default(now())
+  resolvedAt             DateTime?
+  attachments            Json?       // array of {url, name}
+
+  // Relations
+  learner                Learner @relation(fields: [learnerId], references: [id])
+  payment                Payment @relation(fields: [paymentId], references: [id])
+  auditLogs              AuditLog[]
+  notes                  Note[]
+  approvedByUser         User? @relation("ApprovedRefund", fields: [approvedBy], references: [id])
+  disbursedByUser        User? @relation("DisbursedRefund", fields: [disbursedBy], references: [id])
+
+  @@index([status], map: "idx_refund_status")
+  @@index([loggedAt], map: "idx_refund_logged_at")
+  @@index([slaDueAt], map: "idx_refund_sla_due")
+}
+
+model AuditLog {
+  id           Int      @id @default(autoincrement())
+  refundRequestId Int
+  changedBy    Int
+  fromStatus   RefundStatus?
+  toStatus     RefundStatus?
+  fieldChanged String?
+  oldValue     String?
+  newValue     String?
+  timestamp    DateTime @default(now())
+  remarks      String?
+
+  refundRequest RefundRequest @relation(fields: [refundRequestId], references: [id])
+  changedByUser User @relation(fields: [changedBy], references: [id])
+}
+
+model Note {
+  id              Int           @id @default(autoincrement())
+  refundRequestId Int
+  createdBy       Int
+  body            String
+  createdAt       DateTime      @default(now())
+
+  refundRequest RefundRequest @relation(fields: [refundRequestId], references: [id], onDelete: Cascade)
+  createdByUser User          @relation(fields: [createdBy], references: [id])
+}
+
+model BusinessDayCalendar {
+  id          Int      @id @default(autoincrement())
+  date        DateTime @unique
+  isHoliday   Boolean @default(false)
+}
+
