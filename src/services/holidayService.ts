@@ -124,7 +124,7 @@ export const importHolidaysForYears = async (years: number[]): Promise<{
   success: boolean;
   totalImported: number;
   totalUpdated: number;
-  yearResults: Array<{ year: number; imported: number; updated: number; errors: string[] }>;
+  yearResults: Array<{ success: boolean; imported: number; updated: number; errors: string[] }>;
 }> => {
   const yearResults = await Promise.all(
     years.map(year => importHolidaysForYear(year))

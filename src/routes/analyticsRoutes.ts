@@ -114,8 +114,8 @@ router.get('/performance', requireAuth, requireRole(Role.ADMIN, Role.FINANCE), a
       pendingSLA: refunds.filter(r => !r.resolvedAt && r.slaDueAt && r.slaDueAt >= now).length,
     };
 
-    slaAnalysis.complianceRate = slaAnalysis.totalRefunds > 0 
-      ? ((slaAnalysis.onTime / slaAnalysis.totalRefunds) * 100).toFixed(2) 
+    const complianceRate = slaAnalysis.totalRefunds > 0
+      ? ((slaAnalysis.onTime / slaAnalysis.totalRefunds) * 100).toFixed(2)
       : '0';
 
     // Coordinator performance
@@ -124,7 +124,7 @@ router.get('/performance', requireAuth, requireRole(Role.ADMIN, Role.FINANCE), a
       if (coordinatorId) {
         if (!acc[coordinatorId]) {
           acc[coordinatorId] = {
-            name: r.learner.assignedCoordinator.name,
+            name: r.learner.assignedCoordinator?.name || 'Unknown',
             totalRefunds: 0,
             approvedRefunds: 0,
             avgResolutionTime: 0,

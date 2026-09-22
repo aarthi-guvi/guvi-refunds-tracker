@@ -38,7 +38,7 @@ export const requireRole = (...allowed: Role[]) => {
       // should never happen because requireAuth runs first
       return res.status(401).json({ error: 'Unauthenticated' });
     }
-    if (!allowed.includes(req.user.role)) {
+    if (!allowed.includes(req.user.role as Role)) {
       return res.status(403).json({ error: `Forbidden – requires one of: ${allowed.join(', ')}` });
     }
     next();

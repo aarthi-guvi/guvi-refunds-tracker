@@ -154,8 +154,8 @@ router.put('/business-calendar', requireAuth, requireRole(Role.ADMIN), async (re
 /** DELETE /api/admin/business-calendar/:date – delete calendar entry (admin only) */
 router.delete('/business-calendar/:date', requireAuth, requireRole(Role.ADMIN), async (req, res) => {
   const { date } = req.params;
-  const parsedDate = new Date(date);
-  
+  const parsedDate = new Date(Array.isArray(date) ? date[0] : date);
+
   if (Number.isNaN(parsedDate.getTime())) {
     return res.status(400).json({ error: 'Invalid date format' });
   }
@@ -283,7 +283,6 @@ router.post('/refunds/bulk/status', requireAuth, requireRole(Role.ADMIN), async 
       refundIds.map(async (id) => {
         const refund = await prisma.refundRequest.findUnique({
           where: { id },
-          select: { status: true, learner: { select: { email: true, name: true } } },
           include: { learner: true, payment: true },
         });
         

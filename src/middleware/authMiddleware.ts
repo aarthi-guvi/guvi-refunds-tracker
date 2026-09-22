@@ -22,7 +22,7 @@ export function requireAuth(req: Request, res: Response, next: NextFunction) {
 
 export function requireRole(...allowedRoles: Role[]) {
   return (req: Request, res: Response, next: NextFunction) => {
-    if (!req.user || !allowedRoles.includes(req.user.role)) {
+    if (!req.user || !allowedRoles.includes(req.user.role as Role)) {
       return res.status(403).json({ error: 'You do not have permission to perform this action' });
     }
     return next();

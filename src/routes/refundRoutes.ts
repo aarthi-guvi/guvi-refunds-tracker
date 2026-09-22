@@ -48,7 +48,7 @@ router.post('/', requireAuth, requireRole(Role.COORDINATOR, Role.ADMIN), async (
       recipientName: refund.learner.name,
       refundId: refund.id,
       status: refund.status,
-      amount: refund.requestedAmount,
+      amount: Number(refund.requestedAmount),
     });
 
     res.status(201).json(refund);
@@ -183,7 +183,7 @@ router.patch('/:id/status', requireAuth, async (req, res) => {
       refundId: refund.id,
       status: toStatus as RefundStatus,
       previousStatus: refund.status as RefundStatus,
-      amount: refund.requestedAmount,
+      amount: Number(refund.requestedAmount),
       rejectionReason: rejectionReason,
     });
 

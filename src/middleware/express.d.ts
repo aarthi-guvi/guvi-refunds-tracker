@@ -5,6 +5,10 @@ declare global {
     interface Request {
       file?: any;
       files?: any[];
+      user?: {
+        userId: number;
+        role: string;
+      };
     }
   }
 }
