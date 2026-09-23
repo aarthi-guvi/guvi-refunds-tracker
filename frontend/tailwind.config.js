@@ -14,6 +14,8 @@ export default {
           success: '#00A651',     // Success (same as primary)
           error: '#FF3D00',       // Error red
           warning: '#FFAB00',     // Warning amber
+          orange: '#FF6B35',      // Orange accent
+          navy: '#0A0F14',        // Navy dark
         },
         // Fallback colors
         ink: '#0A0F14',

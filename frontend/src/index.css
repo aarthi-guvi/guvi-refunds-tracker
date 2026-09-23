@@ -20,4 +20,6 @@ button, input, select, textarea { font: inherit; }
 .bg-guvi-warning { background-color: #FFAB00; }
 .bg-guvi-error { background-color: #FF3D00; }
 .bg-guvi-border { background-color: #E4E8EC; }
+.bg-guvi-orange { background-color: #FF6B35; }
+.bg-guvi-navy { background-color: #0A0F14; }
 .recharts-tooltip-wrapper { outline: none; }
